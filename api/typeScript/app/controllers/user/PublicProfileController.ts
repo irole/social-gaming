@@ -1,6 +1,7 @@
 import {NotFoundError} from '../../errors/NotFoundError';
 import Controller from "./Controller";
 import userService from "../../services/UserService";
+import translate from "../../helpers/translate";
 
 
 class PublicProfileController extends Controller {
@@ -9,7 +10,7 @@ class PublicProfileController extends Controller {
             // Get username From params
             let username = req.params.username;
             let user: any = await userService.checkUsernameExist(username);
-            if (!user) throw new NotFoundError(req.__('typeScript.app.http.controllers.api.user.public-profile-controller.load-profile.not-found'));
+            if (!user) throw new NotFoundError(translate(req,__filename,'load-profile-not-found','user not Found !'));
             user = await userService.findOne({username}, ['userRelationship']);
             if (req.user && req.user.id === user.id) return res.redirect('/profile'); // Must be Change With React Developer
             return this.success({user: await this.filterPublicUser(user, req)}, res);

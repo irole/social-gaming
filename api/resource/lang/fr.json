@@ -272,7 +272,6 @@
                 "remove-friend": {
                   "server-error": "server error please try again later !",
                   "success-remove": "you are not friends any more !",
-                  "user-not-found": "this user name not found !",
                   "users-arent-friend": "you are not friend together !"
                 },
                 "request-process": {
@@ -550,9 +549,6 @@
           "talk-room-invite": {
             "bad-request": "you can not send talk room invite for this user because user privacy setting was limited !",
             "privacy-closed": "Your recipient username has restricted talkroom invitation !"
-          },
-          "talk-room-invite-validator": {
-            "username-not-string": "Username Must Be String !"
           },
           "un-block-validator": {
             "user-not-found-in-block-list": "Your Requested User not In your block List ! ",

@@ -7,6 +7,7 @@ import userService from "../../services/UserService";
 import billingInformationService from "../../services/BillingInformationService";
 import userRelationshipService from "../../services/UserRelationshipService";
 import privacySettingService from "../../services/PrivacySettingService";
+import translate from "../../helpers/translate";
 // Packages
 const fs = require('fs');
 
@@ -18,8 +19,7 @@ class ProfileController extends Controller {
             let user = await userService.findById(req.user.id);
             //await userService.updateGeneralLevel(user.id);
             if (user) return this.success(this.transformInformation(req), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.profile-controller.change-username.server-error'));
-
+            throw new ServerError(translate(req,__filename,'profile-index-server-error','Server Error ! '));
         } catch (e) {
             next(e);
         }
@@ -47,10 +47,10 @@ class ProfileController extends Controller {
     /* Change Username Index(Get) */
     async changeUsernameIndex(req, res, next) {
         try {
-            if (!req.user.emailVerify) throw new ClientError(req.__('typeScript.app.http.controllers.api.user.profile-controller.change-username-index.email-verify'));
+            if (!req.user.emailVerify) throw new ClientError(translate(req,__filename,'change-username-index-email-verify','you must verify your Email to change username ! '));
 
             const userCan = await userService.checkLastUpdateUsername(req.user.email);
-            if (!userCan) throw new ClientError(`${req.__('typeScript.app.http.controllers.api.user.profile-controller.change-username-index.update-date')} ${req.user.whenUserCanUpdateUsername.toLocaleString()}`);
+            if (!userCan) throw new ClientError(`${translate(req,__filename,'change-username-index-update-date','you can\'t change your Username before :')} ${req.user.whenUserCanUpdateUsername.toLocaleString()}`);
             let data = {
                 username: req.user.username,
                 whenUserCanUpdateUsername: req.user.whenUserCanUpdateUsername,
@@ -68,11 +68,11 @@ class ProfileController extends Controller {
             // Get Input Value
             let username = req.body.username;
             let checkUsername = await userService.checkUsernameExist(username);
-            if (checkUsername) throw new ConflictError(req.__('typeScript.app.http.controllers.api.user.profile-controller.change-username.username-exist'));
+            if (checkUsername) throw new ConflictError(translate(req,__filename,'change-username-user-exist','this username already exist !'));
             // change username
             let result = await userService.changeUsername(req.user.id, username);
-            if (result === 200) return this.success(req.__('typeScript.app.http.controllers.api.user.profile-controller.change-username.username-changed'), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.profile-controller.change-username.server-error'));
+            if (result === 200) return this.success(translate(req,__filename,'change-username-successful','username Changed Successfully !'), res);
+            throw new ServerError(translate(req,__filename,'change-username-server-error','Server Error ! '));
         } catch (e: any) {
             next(e);
         }
@@ -81,7 +81,7 @@ class ProfileController extends Controller {
     /* update information Index(Get) */
     async InformationIndex(req, res, next) {
         try {
-            if (!req.user.emailVerify) throw new ClientError(req.__('typeScript.app.http.controllers.api.user.profile-controller.update-information-index.email-verify'));
+            if (!req.user.emailVerify) throw new ClientError(translate(req,__filename,'information-index-email-verify','you must verify your Email to update your information'));
 
             const data = {
                 biography: req.user.biography,
@@ -100,12 +100,12 @@ class ProfileController extends Controller {
     /* update information (Post) */
     async updateInformation(req, res, next) {
         try {
-            if (!req.user.emailVerify) throw new ClientError(req.__('typeScript.app.http.controllers.api.user.profile-controller.update-information.email-verify'));
+            if (!req.user.emailVerify) throw new ClientError(translate(req,__filename,'information-update-email-verify','you must verify your Email to update your information'));
             // Update User information
             let result = await userService.updateInformation(req.user.id, req.body);
             // Check result
-            if (result === 200) return this.success(req.__('typeScript.app.http.controllers.api.user.profile-controller.update-information.information-updated'), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.profile-controller.update-information.server-error'));
+            if (result === 200) return this.success(translate(req,__filename,'information-update-successful','your information updated successfully'), res);
+            throw new ServerError(translate(req,__filename,'information-update-server-error','Server Error ! '));
         } catch (e) {
             next(e);
         }
@@ -114,7 +114,7 @@ class ProfileController extends Controller {
     /* billing information Index(Get) */
     async billingInformationUpdateIndex(req, res, next) {
         try {
-            if (!req.user.emailVerify) throw new ClientError(req.__('typeScript.app.http.controllers.api.user.profile-controller.billing-information-update-index.email-verify'));
+            if (!req.user.emailVerify) throw new ClientError(translate(req,__filename,'billing-information-update-email-verify','you must verify your Email to update your billing information'));
             let userBillingInformation = await billingInformationService.findOne({user: req.user.id});
             let data = {
                 firstName: userBillingInformation.firstName,
@@ -139,12 +139,12 @@ class ProfileController extends Controller {
     /* update billing information (Post) */
     async billingInformationUpdate(req, res, next) {
         try {
-            if (!req.user.emailVerify) throw new ClientError(req.__('typeScript.app.http.controllers.api.user.profile-controller.billing-information-update.email-verify'));
+            if (!req.user.emailVerify) throw new ClientError(translate(req,__filename,'update-billing-information-update-email-verify','you must verify your Email to update your billing information'));
             // Update User billing information
             let result = await billingInformationService.updateBillingInformation(req.user.id, req.body);
             // check Result
-            if (result === 200) return this.success(req.__('typeScript.app.http.controllers.api.user.profile-controller.billing-information-update.information-updated'), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.profile-controller.billing-information-update.server-error'));
+            if (result === 200) return this.success(translate(req,__filename,'update-billing-information-successful','your billing information updated successfully!'), res);
+            throw new ServerError(translate(req,__filename,'update-billing-information-server-error','Server Error ! '));
         } catch (e) {
             next(e);
         }
@@ -179,24 +179,24 @@ class ProfileController extends Controller {
             // find requester id with username
             let requesterId = await userService.findIdWithUsername(requesterUsername);
             // requester not found
-            if (requesterId === 404) throw new NotFoundError(req.__('typeScript.app.http.controllers.api.user.profile-controller.request-process.user-not-exist'))
+            if (requesterId === 404) throw new NotFoundError(translate(req,__filename,'request-process-user-not-exist','Your Requested User not Found !'))
             // send users information to service
             await userRelationshipService.findUsers(receiverId, requesterId);
             // check requester in receiver request list
-            if (!userRelationshipService.getReceiverFriendsRequestList().includes(userRelationshipService.getRequesterId())) throw new NotFoundError(req.__('typeScript.app.http.controllers.api.user.profile-controller.request-process.user-not-in-request-list'));
+            if (!userRelationshipService.getReceiverFriendsRequestList().includes(userRelationshipService.getRequesterId())) throw new NotFoundError(translate(req,__filename,'request-process-user-not-in-request-list','This User Dose not in your Request List !'));
             let result;
             // Reject
             if (req.params.mode === 'reject') {
                 // Request Process
                 result = await userRelationshipService.requestProcess(receiverId, requesterId, 'reject');
-                if (result === 200) return this.success(req.__('typeScript.app.http.controllers.api.user.profile-controller.request-process.reject-request'), res);
+                if (result === 200) return this.success(translate(req,__filename,'request-process-reject-request','you are reject this request'), res);
             } else { // accept
                 // Request Process
                 result = await userRelationshipService.requestProcess(receiverId, requesterId, 'accept');
-                if (result === 200) return this.success(req.__('typeScript.app.http.controllers.api.user.profile-controller.request-process.accept-request'), res);
+                if (result === 200) return this.success(translate(req,__filename,'request-process-accept-request','accept successfully you are now friends'), res);
             }
             // when server Error
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.profile-controller.request-process.server-error'));
+            throw new ServerError(translate(req,__filename,'request-process-server-error','Server Error !'));
         } catch (e: any) {
             next(e);
         }
@@ -252,15 +252,15 @@ class ProfileController extends Controller {
             // get user two id
             const receiverId = await userService.findIdWithUsername(receiverUsername);
             // if receiver not found
-            if (receiverId === 404) throw new NotFoundError(req.__('typeScript.app.http.controllers.api.user.profile-controller.remove-friend.user-not-found'))
+            if (receiverId === 404) throw new NotFoundError(translate(req,__filename,'remove-friend-user-not-found','this user name not found !'))
             // check users are friend
             let result: any = await userRelationshipService.usersAreFriends(receiverId, req.user.id);
-            if (!result) throw new ClientError(req.__('typeScript.app.http.controllers.api.user.profile-controller.remove-friend.users-arent-friend'), 403);
+            if (!result) throw new ClientError(translate(req,__filename,'remove-friend-users-arent-friend','you are not friend together !'));
             // Remove Friend Request
             result = await userRelationshipService.removeFriend(requesterId, receiverId);
             // check result
-            if (result === 200) return this.success(req.__('typeScript.app.http.controllers.api.user.profile-controller.remove-friend.success-remove'), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.profile-controller.remove-friend.server-error'))
+            if (result === 200) return this.success(translate(req,__filename,'remove-friend-remove-friend.success-remove','you are not friends any more !'), res);
+            throw new ServerError(translate(req,__filename,'remove-friend-server-error','server error please try again later !'))
         } catch (e: any) {
             next(e);
         }
@@ -290,7 +290,7 @@ class ProfileController extends Controller {
             if (req.user.emailVerify) {
                 return res.render('home/upload');
             }
-            throw new ClientError(req.__('typeScript.app.http.controllers.api.user.profile-controller.upload-profile-picture.email-verify'));
+            throw new ClientError(translate(req,__filename,'upload-profile-picture-email-verify','you must verify email before change profile picture'));
         } catch (e: any) {
             next(e);
         }
@@ -308,8 +308,8 @@ class ProfileController extends Controller {
             }
             // Update User Profile Picture
             let result = await userService.findByIdAndUpdate(req.user.id, {profilePicture: req.body.file.url});
-            if (result) return this.success(req.__('typeScript.app.http.controllers.api.user.profile-controller.upload-process.upload-successfully'), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.profile-controller.upload-process.server-error'));
+            if (result) return this.success(translate(req,__filename,'upload-process-successful','your profile picture upload successfully !'), res);
+            throw new ServerError(translate(req,__filename,'upload-process-server-error','Server Error please try Again later!'));
         } catch (e: any) {
             next(e);
         }

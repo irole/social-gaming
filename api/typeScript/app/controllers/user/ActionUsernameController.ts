@@ -3,6 +3,7 @@ import {ServerError} from '../../errors/ServerError';
 import Controller from "./Controller";
 import userService from "../../services/UserService";
 import userRelationshipService from "../../services/UserRelationshipService";
+import translate from "../../helpers/translate";
 // Packages
 const passport = require('passport');
 
@@ -15,15 +16,15 @@ class ActionUsernameController extends Controller {
             const receiverUsername = req.params.username;
             // find receiver Id with username
             const userExist = await userService.checkUsernameExist(receiverUsername);
-            if (!userExist) throw new NotFoundError(req.__('typeScript.app.http.controllers.api.user.public-profile-controller.request-friend.not-found'));
+            if (!userExist) throw new NotFoundError(translate(req,__filename,'send-request-friend-not-found','your requested username not Found !'));
             const receiverId = await userService.findIdWithUsername(receiverUsername);
             // get requester user id
             const requesterId = req.user.id;
             // request Process
             let result = await userRelationshipService.sendRequest(receiverId, requesterId);
             // Check result
-            if (result === 200) return this.success(req.__('typeScript.app.http.controllers.api.user.public-profile-controller.request-friend.request-send'), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.public-profile-controller.request-friend.server-error'));
+            if (result === 200) return this.success(translate(req,__filename,'send-request-friend-request-send','your request send successfully'), res);
+            throw new ServerError(translate(req,__filename,'send-request-friend-server-error','Server Error ! '));
         } catch (e: any) {
             next(e);
         }
@@ -34,7 +35,7 @@ class ActionUsernameController extends Controller {
             // get username with params
             const receiverUsername = req.params.username;
             const userExist = await userService.checkUsernameExist(receiverUsername);
-            if (!userExist) throw new NotFoundError(req.__('typeScript.app.http.controllers.api.user.public-profile-controller.block-user.username-not-found'));
+            if (!userExist) throw new NotFoundError(translate(req,__filename,'block-user-username-not-found','Your Requested Username not Found !'));
             // find receiver Id with username
             const receiverId = await userService.findIdWithUsername(receiverUsername);
             // get requester user id
@@ -42,8 +43,8 @@ class ActionUsernameController extends Controller {
             // Block Process
             const result = await userRelationshipService.blockUser(receiverId, requesterId);
             // check result
-            if (result === 200) return this.success(req.__('typeScript.app.http.controllers.api.user.public-profile-controller.block-user.block-successfully'), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.public-profile-controller.block-user.server-error'));
+            if (result === 200) return this.success(translate(req,__filename,'block-user-username-block-successfully','user blocked successfully'), res);
+            throw new ServerError(translate(req,__filename,'block-user-username-server-error','Server Error !'));
         } catch (e: any) {
             next(e);
         }
@@ -57,12 +58,12 @@ class ActionUsernameController extends Controller {
             const requesterId = req.user.id;
             // find user id with username
             const receiverId = await userService.findIdWithUsername(receiverUsername);
-            if (receiverId === 404) throw new NotFoundError(req.__('typeScript.app.http.controllers.api.user.public-profile-controller.un-block-user.username-not-found'));
+            if (receiverId === 404) throw new NotFoundError(translate(req,__filename,'unblock-user-username-not-found','Your Requested Username not Found !'));
             // Un block process
             const result = await userRelationshipService.unBlockUser(receiverId, requesterId);
             // Check Result
-            if (result === 200) return this.success(req.__('typeScript.app.http.controllers.api.user.public-profile-controller.un-block-user.un-block-successfully'), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.public-profile-controller.un-block-user.server-error'));
+            if (result === 200) return this.success(translate(req,__filename,'unblock-user-username-block-successfully','user unblocked successfully'), res);
+            throw new ServerError(translate(req,__filename,'unblock-user-username-server-error','Server Error !'));
         } catch (e: any) {
             next(e);
         }

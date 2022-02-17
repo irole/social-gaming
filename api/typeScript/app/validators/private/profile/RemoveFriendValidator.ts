@@ -1,7 +1,6 @@
 import {param} from 'express-validator';
 import Validator from "../../Validator";
-
-
+import translate from "../../../helpers/translate";
 
 class RemoveFriendValidator extends Validator  {
 
@@ -11,7 +10,7 @@ class RemoveFriendValidator extends Validator  {
                 .trim()
                 .escape()
                 .toLowerCase()
-                .isString().withMessage((value, {req}) => req.__('typeScript.app.http.validators.remove-friend-validator.username.is-string'))
+                .isString().withMessage((value, {req}) => translate(req,__filename,'username-not-string','Only letters and digits allowed in title.'))
         ];
     }
 }

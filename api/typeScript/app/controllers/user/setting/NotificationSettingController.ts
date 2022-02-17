@@ -1,6 +1,7 @@
 import {ServerError} from '../../../errors/ServerError';
 import Controller from "../Controller";
 import notificationSettingService from "../../../services/NotificationSettingService";
+import translate from "../../../helpers/translate";
 
 
 class NotificationSettingController extends Controller {
@@ -25,8 +26,8 @@ class NotificationSettingController extends Controller {
             // Update Notification Setting
             let result = await notificationSettingService.updateNotificationSetting(req.user.id, req.body);
             // Check result
-            if (result === 200) return this.success(req.__('typeScript.app.http.controllers.api.user.setting.notification-setting-controller.setting-updated'), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.setting.notification-setting-controller.server-error'));
+            if (result === 200) return this.success(translate(req,__filename,'update-setting-changed','Your Notification Setting Updated Successfully !'), res);
+            throw new ServerError(translate(req,__filename,'update-server-error','Sever Error !'));
         } catch (e: any) {
             next(e);
         }

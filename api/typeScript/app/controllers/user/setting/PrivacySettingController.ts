@@ -1,6 +1,7 @@
 import {ServerError} from '../../../errors/ServerError';
 import Controller from "../Controller";
 import privacySettingService from "../../../services/PrivacySettingService";
+import translate from "../../../helpers/translate";
 
 
 class PrivacySettingController extends Controller {
@@ -31,8 +32,8 @@ class PrivacySettingController extends Controller {
             // Update Process
             const result = await privacySettingService.updatePrivacySetting(req.user.id, req.body);
             // Check Result
-            if (result === 200) this.success(req.__('typeScript.app.http.controllers.api.user.setting.privacy-setting-controller.update.setting-updated'), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.setting.privacy-setting-controller.update.server-error'));
+            if (result === 200) return this.success(translate(req,__filename,'update-setting-changed','Your privacy Setting Updated Successfully !'), res);
+            throw new ServerError(translate(req,__filename,'update-server-error','Sever Error !'));
         } catch (e: any) {
             next(e);
         }
@@ -58,8 +59,8 @@ class PrivacySettingController extends Controller {
             const status = req.body.onlineStatus;
             const result = await privacySettingService.setUserStatus(userId, status);
             // Check result
-            if (result === 200) return this.success(req.__('typeScript.app.http.controllers.api.user.setting.privacy-setting-controller.change-status.change-successfully'), res);
-            throw new ServerError(req.__('typeScript.app.http.controllers.api.user.setting.privacy-setting-controller.change-status.server-error'));
+            if (result === 200) return this.success(translate(req,__filename,'change-status-change-successfully','your status changed successfully'), res);
+            throw new ServerError(translate(req,__filename,'change-status-server-error','server Error!'));
         } catch (e: any) {
             next(e);
         }

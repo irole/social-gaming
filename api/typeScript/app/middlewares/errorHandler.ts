@@ -2,6 +2,7 @@ import {Request, Response, NextFunction} from 'express';
 import {CustomError} from '../errors/CustomError';
 import {RequestValidationError} from '../errors/RequestValidationError';
 import logger from "../helpers/logger";
+import translate from "../helpers/translate";
 
 
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -36,6 +37,6 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
     }
 
     res.status(400).send({
-        errors: {message: 'Something went wrong'}
+        errors: {message: translate(req,__filename,'error','Something went wrong !')}
     });
 };

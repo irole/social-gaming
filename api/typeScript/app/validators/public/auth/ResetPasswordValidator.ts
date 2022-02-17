@@ -1,13 +1,16 @@
 import Validator from "../../Validator";
-
-
+import translate from "../../../helpers/translate";
 const {body} = require('express-validator');
 
 class LoginValidator extends Validator {
 
     handle() {
         return [
-            body('password').trim().escape().isLength({min: 8}).withMessage((value, {req}) => req.__('typeScript.app.http.validators.reset-password-validator.password')),
+            body('password')
+            .isLength({min: 2}).escape()
+            .withMessage((value, {req, location, path}) => {
+                return translate(req,__filename,'password-valid','password must more than 8 characters');
+            }),
         ];
     }
 }

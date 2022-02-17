@@ -1,15 +1,27 @@
 import Validator from "../../Validator";
-
-
+import translate from "../../../helpers/translate";
 const {body} = require('express-validator');
-
 
 class LoginValidator extends Validator {
 
     handle() {
+
+
         return [
-            body('email').trim().escape().isEmail().withMessage((value, {req}) => req.__('typeScript.app.http.validators.login-validator.email')).toLowerCase(),
-            body('password').trim().escape().isLength({min: 8}).withMessage((value, {req}) => req.__('typeScript.app.http.validators.login-validator.password'))
+            body('email')
+            .trim()
+            .escape()
+            .isEmail()
+            .withMessage((value, {req, location, path}) => {
+                return translate(req,__filename,'email-validate','email not valid');
+            }),
+            body('password')
+            .trim()
+            .escape()
+            .isLength({min: 8})
+            .withMessage((value, {req, location, path}) => {
+                return translate(req,__filename,'password-valid','password must more than 8 characters');
+            }),
         ];
     }
 }

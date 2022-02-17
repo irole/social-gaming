@@ -4,6 +4,7 @@ import {ServerError} from '../../errors/ServerError';
 import Controller from "./Controller";
 import resetPasswordService from "../../services/ResetPasswordService";
 import userService from "../../services/UserService";
+import translate from "../../helpers/translate";
 // Packages
 const uniqueString = require('unique-string');
 
@@ -14,10 +15,10 @@ class ResetPasswordController extends Controller {
         try {
             const {token} = req.params;
             let resetPassword = await this.checkToken(token);
-            if (resetPassword === 404) throw new NotFoundError(req.__('typeScript.app.http.controllers.api.auth.reset-password-controller.invalid-link'));
-            if (resetPassword === 403) throw new ClientError(req.__('typeScript.app.http.controllers.api.auth.reset-password-controller.invalid-link'), 403);
+            if (resetPassword === 404) throw new NotFoundError(translate(req,__filename,'index-invalid-link-404','Link is not validate'));
+            if (resetPassword === 403) throw new ClientError(translate(req,__filename,'index-invalid-link-409','Link is not validate'), 403);
             // Do Something
-            return this.success(req.__('typeScript.app.http.controllers.api.auth.reset-password-controller.valid-link'), res);
+            return this.success(translate(req,__filename,'index-valid-link','Link is valid'), res);
         } catch (e) {
             next(e);
         }
@@ -27,16 +28,16 @@ class ResetPasswordController extends Controller {
         try {
             const token = req.params.token;
             let resetPassword = await this.checkToken(token);
-            if (resetPassword === 404) throw new NotFoundError(req.__('typeScript.app.http.controllers.api.auth.reset-password-controller.invalid-link'));
-            if (resetPassword === 403) throw new ClientError(req.__('typeScript.app.http.controllers.api.auth.reset-password-controller.invalid-link'), 403);
+            if (resetPassword === 404) throw new NotFoundError(translate(req,__filename,'process-invalid-link-404','Link is not validate'));
+            if (resetPassword === 403) throw new ClientError(translate(req,__filename,'process-invalid-link-409','Link is not validate'), 403);
             // Get Input Value
             const {password} = req.body;
             // Find & Update User and Set Bcrypt Password
             await userService.findOneAndUpdate({email: resetPassword.email}, {$set: {password: userService.bcryptPassword(password)}});
             // Find & Update Reset Password and Set use true
             let tokenUsed = await resetPasswordService.tokenUsed(token);
-            if (!tokenUsed) throw new ServerError(req.__('typeScript.app.http.controllers.api.auth.reset-password-controller.server-error'));
-            return this.success(req.__('typeScript.app.http.controllers.api.auth.reset-password-controller.password-changed'), res);
+            if (!tokenUsed) throw new ServerError(translate(req,__filename,'process-server-error','server error'));
+            return this.success(translate(req,__filename,'process-password-changed','Your Password Changed Successfully !'), res);
         } catch (e: any) {
             next(e);
         }

@@ -2,6 +2,7 @@
 import Controller from "./Controller";
 import userService from "../../services/UserService";
 import resetPasswordService from "../../services/ResetPasswordService";
+import translate from "../../helpers/translate";
 
 const uniqueString = require('unique-string');
 
@@ -24,7 +25,7 @@ class ForgotPasswordController extends Controller {
 
                 //
             }
-            return this.success(req.__('typeScript.app.http.controllers.api.auth.forgot-password-controller.success'), res);
+            return this.success(translate(req,__filename,'process-success','Reset Password Link Send To Your Email'), res);
         } catch (e: any) {
             next(e);
         }
