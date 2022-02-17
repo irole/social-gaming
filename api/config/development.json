@@ -1,0 +1,7 @@
+{
+  "DatabaseUrl": "mongodb://localhost:27017/WSG-dev",
+  "Debug": true,
+  "ApplicationPort": 3001,
+  "WebsiteUrl": "http://localhost:"
+}
+
