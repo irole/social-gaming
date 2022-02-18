@@ -14,5 +14,5 @@ module.exports = {
     permission,
     service,
     role,
-    siteName: 'iRole'
+    siteName: 'WSG'
 };

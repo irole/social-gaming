@@ -10,6 +10,7 @@ import Controller from './Controller';
 // Service
 import userService from '../../services/UserService';
 import roleService from '../../services/RoleService';
+import usersReportService from "../../services/UsersReportService";
 
 class UserController extends Controller {
 
@@ -25,10 +26,54 @@ class UserController extends Controller {
                 select: 'name'
             }];
             const users = await userService.paginate({admin: false}, page, {createdAt: 1}, 20, populate);
-            res.render('home/users', {
-                users,
-                title
-            });
+            res.render('home/users', {users, title});
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async bans(req, res, next) {
+        try {
+            // Page Title
+            const title: string = translate(req, __filename, 'page-title-bans', 'Bans');
+            // Paginate
+            let page = req.query.page || 1;
+            // Select All User
+            let populate = [{path: 'role', select: 'name'}];
+            let users = await userService.paginate({banStatus: true}, page, {createdAt: 1}, 20, populate);
+            res.render("home/users/bans", {users, title});
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async reports(req, res, next) {
+        try {
+            // Page Title
+            const title: string = translate(req, __filename, 'page-title-reports', 'Reports');
+            // Paginate
+            let page = req.query.page || 1;
+            // Select All report
+            let populate = [{path: 'reporter'}, {path: 'reportedUser'}];
+            let reports = await usersReportService.paginate({}, page, {createdAt: 1}, 20, populate);
+
+            //let reports = await usersReportService.paginate({}, page, {createdAt: 1}, 20);
+            res.render("home/users/reports", {reports, title});
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async guests(req, res, next) {
+        try {
+            // Page Title
+            const title: string = translate(req, __filename, 'page-title-guests', 'Guests');
+            // Paginate
+            let page = req.query.page || 1;
+            // Select All User
+            let populate = [{path: 'role', select: 'name'}];
+            let users = await userService.paginate({isGuest: true}, page, {createdAt: 1}, 20, populate);
+            res.render("home/users/guests", {users, title});
         } catch (e) {
             next(e);
         }
@@ -51,6 +96,28 @@ class UserController extends Controller {
                 users,
                 title
             });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async edit(req, res, next) {
+        try {
+            // Page Title
+            const title: string = translate(req, __filename, 'page-title-edit', 'Edit');
+            let user = await userService.findById(req.params.id);
+            // Check User is Exist
+            if (!user) this.error(translate(req, __filename, 'user-not-find', 'user not found'), 404);
+            res.render("home/users/edit", {user, title});
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async update(req, res, next) {
+        try {
+            await userService.findOneAndUpdate({email: req.body.email}, {...req.body});
+            res.redirect("/users");
         } catch (e) {
             next(e);
         }

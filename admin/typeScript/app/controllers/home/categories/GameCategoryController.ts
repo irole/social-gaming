@@ -3,16 +3,18 @@
 import CategoryController from "./CategoryController";
 import gameCategoryService from "../../../services/category/GameCategoryService";
 import fileService from "../../../services/FileService";
+import translate from "../../../helpers/translate";
 
 
 class gameCategoryController extends CategoryController  {
 
     async index(req, res, next) {
         try {
-            const title: string = req.__("typeScript.app.http.controllers.web.admin.category.game-category-controller.index.title");
+            // Page Title
+            const title: string = translate(req, __filename, 'page-title-index', 'Game Categories');
             // Get Sort Categories
             let gameSortedCategory = await gameCategoryService.getSortCategories();
-            res.render('admin/categories/game', {title, gameSortedCategory});
+            res.render('home/categories/game', {title, gameSortedCategory});
         } catch (err) {
             next(err);
         }
@@ -20,18 +22,19 @@ class gameCategoryController extends CategoryController  {
 
     async create(req, res, next) {
         try {
-            const title: string = req.__('typeScript.app.http.controllers.web.admin.category.game-category-controller.create.title');
+            // Page Title
+            const title: string = translate(req, __filename, 'page-title-create', 'New Game Category');
             // Get Sort Categories
             let images = await fileService.find({type: [...Option['fileExt'].ext]});
             let categories = await gameCategoryService.getSortCategories();
-            res.render("admin/categories/game/create", {title, categories, images});
+            res.render("home/categories/game/create", {title, categories, images});
         } catch (e) {
             next(e);
         }
     }
 
     async storeProcess(req, res, next) {
-        await this.store(req, res, next, '/admin/game-category', gameCategoryService)
+        await this.store(req, res, next, '/categories/game', gameCategoryService)
     }
 
     async edit(req, res, next) {
@@ -60,14 +63,14 @@ class gameCategoryController extends CategoryController  {
             });
             // return  res.json(categories)
             let images = await fileService.find({type: [...Option['fileExt'].ext]});
-            return res.render('admin/categories/game/edit', {category, categories, images});
+            return res.render('home/categories/game/edit', {category, categories, images});
         } catch (err) {
             next(err);
         }
     }
 
     async updateProcess(req, res, next) {
-        await this.update(req, res, next, '/admin/game-category', gameCategoryService)
+        await this.update(req, res, next, '/categories/game', gameCategoryService)
     }
 
     async destroyProcess(req, res, next) {

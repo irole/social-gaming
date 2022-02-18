@@ -59,6 +59,8 @@
                                                 <form action="/users/<%= user.id %>?_method=put&_csrf=<%= req.csrfToken() %>"
                                                       method="post">
                                                     <div class="btn-group btn-group-sm">
+                                                        <a href="/users/<%= user.id %>/edit"
+                                                           class="btn btn-warning "><%= translate(req, __filename, 'edit', 'edit') %></a>
                                                         <a href="/users/<%= user.id %>/toggleadmin"
                                                            class="btn btn-info <%= hasPermission(Option['permission'].toggle_admin_users) %>"><%= user.admin ? "remove admin" : "admin" %></a>
                                                         <% if(user.admin) { %>

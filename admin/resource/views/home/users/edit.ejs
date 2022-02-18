@@ -1,0 +1,116 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-11 mx-auto mt-2">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Edit User Information</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form method="post"
+                              action="/users/<%= user._id %>/edit?_method=put&_csrf=<%= req.csrfToken() %>">
+                            <div class="card-body">
+                                <div class="form-row align-items-center">
+                                    <div class="form-group mx-auto">
+                                        <img src="/dist/img/user.png" width="100px" height="100px" alt=""
+                                             class="border border-dark">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-row align-items-center">
+                                    <div class="form-group col-md-6">
+                                        <label for="firstName" class="font-weight-bold">First Name : </label>
+                                        <input type="text" name="firstName" class="form-control"
+                                               placeholder="First Name"
+                                               value="<%= getInputValue("firstName", user.firstName) %>">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="lastName" class="font-weight-bold">Last Name : </label>
+                                        <input type="text" name="lastName" class="form-control"
+                                               placeholder="Last Name"
+                                               value="<%= getInputValue("lastName", user.lastName) %>">
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="form-group col-md-6">
+                                        <label for="email" class="font-weight-bold">Email : </label>
+                                        <input type="text" name="email" class="form-control"
+                                               placeholder="email"
+                                               value="<%= getInputValue("email", user.email) %>">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="username" class="font-weight-bold">User Name : </label>
+                                        <input type="text" name="username" class="form-control"
+                                               placeholder="username"
+                                               value="<%= getInputValue("username", user.username) %>">
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="form-group col-md-6">
+                                        <label for="CountryCode" class="font-weight-bold">Country Code : </label>
+                                        <input type="text" class="form-control"
+                                               placeholder="Country Code"
+                                               value="<%= getInputValue("CountryCode", user.CountryCode) %>">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="phoneNumber" class="font-weight-bold">Phone Number : </label>
+                                        <input type="text" class="form-control"
+                                               placeholder="Phone Number"
+                                               value="<%= getInputValue("phoneNumber", user.phoneNumber) %>">
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="form-group col-md-6">
+                                        <label for="generalLevel" class="font-weight-bold">General Level : </label>
+                                        <input type="text" name="generalLevel" class="form-control"
+                                               placeholder="General Level"
+                                               value="<%= getInputValue("generalLevel", user.generalLevel) %>">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="generalXP" class="font-weight-bold">General XP : </label>
+                                        <input type="text" name="generalXP" class="form-control"
+                                               placeholder="General XP"
+                                               value="<%= getInputValue("generalXP", user.generalXP) %>">
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="form-group col-md-6">
+                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                               placeholder="gender">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <input type="text" class="form-control" id="exampleInputPassword1"
+                                               placeholder="Birthday">
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="form-group col-md-12">
+                                        <label for="biography" class="font-weight-bold">Biography : </label>
+                                        <textarea name="biography" class="form-control"
+                                                  placeholder="bio"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

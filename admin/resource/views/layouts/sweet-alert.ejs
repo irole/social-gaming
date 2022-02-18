@@ -28,7 +28,8 @@ if(sweetalert.length) {
                         if (response.delete) {
                             Swal.fire({
                                     title: 'Deleted!',
-                                    text: 'Your file has been deleted',
+                                    title: '<%= translate(req,__filename,'delete','Deleted!')%>',
+                                    text: '<%= translate(req,__filename,'information','Your file has been deleted !')%>',
                                     icon: 'success',
                                     showConfirmButton: false
                                 }

@@ -1,0 +1,83 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><%= translate(req, __filename, 'page-title', 'Shop Category') %></h1>
+                </div>
+                <div class="col-sm-6 <%= hasPermission(Option['permission'].add_categories) %>">
+                    <div class="btn-group float-sm-right">
+                        <a href="/categories/shop/create"
+                           class="btn btn-sm btn-primary"><%= translate(req, __filename, 'create-category', 'create shop category') %></a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><%= translate(req, __filename, 'list-title', 'shop category list') %></h3>
+
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right"
+                                           placeholder="<%= translate(req, __filename, 'search', 'search') %>">
+
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-center table-bordered">
+                                <tr>
+
+                                    <td><%= translate(req, __filename, 'image', 'image') %></td>
+                                    <td><%= translate(req, __filename, 'name', 'name') %></td>
+                                    <td><%= translate(req, __filename, 'parent', 'parent') %></td>
+                                    <td><%= translate(req, __filename, 'description', 'description') %></td>
+                                    <td><%= translate(req, __filename, 'language', 'language') %></td>
+                                    <td><%= translate(req, __filename, 'setting', 'setting') %></td>
+
+                                </tr>
+                                <% shopSortedCategory.forEach(category => { %>
+                                <tr>
+                                    <td><img src="<%= category.image.url %>" width="200px" height="100px"></td>
+                                    <td><%= category.name %></td>
+                                    <td><%= category.parent ? category.parent.name : translate(req, __filename, 'main-category', 'Main category') %></td>
+                                    <td><%= category.description %></td>
+                                    <td><%= category.lang %></td>
+                                    <td>
+                                        <form action="/categories/shop/<%= category.id %>?_csrf=<%= req.csrfToken() %>&_method=DELETE"
+                                              method="post">
+                                            <a href="/categories/shop/<%= category.id %>/edit"
+                                               class="btn btn-warning <%= hasPermission(Option['permission'].edit_categories) %>"><%= translate(req, __filename, 'edit', 'edit') %></a>
+                                            <button type="submit"
+                                                    class="btn btn-danger <%= hasPermission(Option['permission'].delete_categories) %>"><%= translate(req,__filename,'delete','delete') %></button>
+                                        </form>
+                                    </td>
+                                    <% }) %>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<%- include(viewPath('layouts/sweet-alert'), {model:'delete',route:"/categories/shop/"}) %>

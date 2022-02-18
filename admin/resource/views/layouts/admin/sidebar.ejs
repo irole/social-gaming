@@ -97,16 +97,51 @@
                                 <p>Admins</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="/users/guests" class="nav-link">
+                                <i class="fa fa-users nav-icon"></i>
+                                <p>Guests</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/users/bans" class="nav-link">
+                                <i class="fa fa-ban nav-icon"></i>
+                                <p>Ban</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/users/reports" class="nav-link">
+                                <i class="fa fa-info nav-icon"></i>
+                                <p>Reports</p>
+
+                            </a>
+                        </li>
                         <hr>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="/categories" class="nav-link">
-                        <i class="nav-icon far fa-file"></i>
+                <li class="nav-item <%= hasPermission(Option['permission'].show_categories) %>">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon far fa-user"></i>
                         <p>
-                            Categories
+                            Category
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/categories/game" class="nav-link">
+                                <i class="fa fa-users nav-icon"></i>
+                                <p>Game Category</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/categories/shop" class="nav-link">
+                                <i class="fa fa-user-secret nav-icon"></i>
+                                <p>Shop Category</p>
+                            </a>
+                        </li>
+                        <hr>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="/articles" class="nav-link">

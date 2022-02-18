@@ -14,6 +14,12 @@ import validateRequest from '../../middlewares/ValidateRequest';
 // users index
 router.get('/', userController.index);
 router.get('/admins', userController.admins);
+router.get("/bans", userController.bans);
+router.get('/reports', userController.reports);
+router.get('/guests', userController.guests);
+// users edit
+router.get('/:id/edit', userController.edit);
+router.put('/:id/edit', userController.update);
 // // users change role
 router.get('/:id/change-role', userController.changeRole);
 router.put('/:id/change-role', userController.storeRoleForUser);

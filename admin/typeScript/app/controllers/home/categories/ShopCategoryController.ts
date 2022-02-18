@@ -1,16 +1,18 @@
 import CategoryController from "./CategoryController";
 import shopCategoryService from "../../../services/category/ShopCategoryService";
 import fileService from "../../../services/FileService";
+import translate from "../../../helpers/translate";
 
 
-class ShopCategoryController extends CategoryController  {
+class ShopCategoryController extends CategoryController {
 
     async index(req, res, next) {
         try {
-            const title: string = req.__("typeScript.app.http.controllers.web.admin.category.shop-category-controller.index.title");
+            // Page Title
+            const title: string = translate(req, __filename, 'page-title-index', 'shop Categories');
             // Get Sort Categories
             let shopSortedCategory = await shopCategoryService.getSortCategories();
-            res.render('admin/categories/shop', {title, shopSortedCategory});
+            res.render('home/categories/shop', {title, shopSortedCategory});
         } catch (err) {
             next(err);
         }
@@ -18,18 +20,19 @@ class ShopCategoryController extends CategoryController  {
 
     async create(req, res, next) {
         try {
-            const title: string = req.__('typeScript.app.http.controllers.web.admin.category.game-category-controller.create.title');
+            // Page Title
+            const title: string = translate(req, __filename, 'page-title-create', 'New Shop Category');
             // Get Sort Categories
             let images = await fileService.find({type: [...Option['fileExt'].ext]});
             let categories = await shopCategoryService.getSortCategories();
-            res.render("admin/categories/shop/create", {title, categories, images});
+            res.render("home/categories/shop/create", {title, categories, images});
         } catch (e) {
             next(e);
         }
     }
 
     async storeProcess(req, res, next) {
-        await this.store(req, res, next, '/admin/shop-category', shopCategoryService)
+        await this.store(req, res, next, '/categories/shop', shopCategoryService)
     }
 
     async edit(req, res, next) {
@@ -58,14 +61,14 @@ class ShopCategoryController extends CategoryController  {
             });
             // return  res.json(categories)
             let images = await fileService.find({type: [...Option['fileExt'].ext]});
-            return res.render('admin/categories/shop/edit', {category, categories, images});
+            return res.render('home/categories/shop/edit', {category, categories, images});
         } catch (err) {
             next(err);
         }
     }
 
     async updateProcess(req, res, next) {
-        await this.update(req, res, next, '/admin/shop-category', shopCategoryService)
+        await this.update(req, res, next, '/categories/shop', shopCategoryService)
     }
 
     async destroyProcess(req, res, next) {

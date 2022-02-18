@@ -4,13 +4,16 @@
 			"home": {
 				"ArticleController": {
 					"page-title-index": "Articles",
-					"page-title-create": "create new Article"
+					"page-title-create": "create new Article",
+					"destroy-text-sweetalert": "are you sure ? "
 				},
 				"CategoryController": {
 					"page-title-index": "Categories"
 				},
 				"FileController": {
-					"page-title-index": "Files"
+					"page-title-index": "Files",
+					"page-title-create": "Upload new File",
+					"page-title-edit": "Edit File"
 				},
 				"RoleController": {
 					"destroy-text-sweetalert": "are you sure ? ",
@@ -21,10 +24,23 @@
 					"page-title-admin": "Admins",
 					"page-title-change-role": "Change user Role",
 					"page-title-create": "Create new User",
-					"page-title-index": "Users"
+					"page-title-index": "Users",
+					"page-title-bans": "Bans",
+					"page-title-guests": "Guests",
+					"page-title-reports": "Reports",
+					"page-title-edit": "Edit"
 				},
 				"PermissionController": {
 					"page-title-index": "Permissions"
+				},
+				"categories": {
+					"ShopCategoryController": {
+						"page-title-index": "shop Categories",
+						"page-title-create": "New Shop Category"
+					},
+					"GameCategoryController": {
+						"page-title-index": "Game Categories"
+					}
 				}
 			},
 			"MasterController": {
@@ -64,6 +80,16 @@
 					"article-title-length": "Article Title Must More Than 5 Characters",
 					"image-required": "image is Required",
 					"description-length": "Description Must More Than 10 Characters "
+				},
+				"GameCategoryValidator": {
+					"category-name": "Category Name Must enter",
+					"cate-img-required": "Category Image is Required ! ",
+					"cate-img-url-required": "Category Image is Required ! "
+				},
+				"ShopCategoryValidator": {
+					"category-name": "Category Name Must enter",
+					"cate-img-required": "Category Image is Required ! ",
+					"cate-img-url-required": "Category Image is Required ! "
 				}
 			}
 		},
@@ -123,7 +149,9 @@
 						"table-setting": "setting",
 						"table-title": "title",
 						"table-viewCount": "view Count",
-						"title": "Articles"
+						"title": "Articles",
+						"table-edit": "Edit",
+						"table-delete": "Delete"
 					},
 					"create": {
 						"title": "Create New Article",
@@ -153,6 +181,60 @@
 						"table-parent": "Parent",
 						"table-setting": "Setting",
 						"title": "category"
+					},
+					"game": {
+						"index": {
+							"page-title": "Game Category",
+							"create-category": "create game category",
+							"list-title": "game category list",
+							"search": "search",
+							"image": "image",
+							"name": "name",
+							"parent": "parent",
+							"description": "description",
+							"language": "language",
+							"setting": "setting"
+						},
+						"create": {
+							"page-title": "Add new Game Category",
+							"name": "category name",
+							"ph-name": "Please Insert Name of Category",
+							"parent": "Category Parent",
+							"value-parent": "Main Category",
+							"language": "Language",
+							"picture-gallery": "Picture Gallery",
+							"open-gallery": "Open Picture Gallery",
+							"description": "Description",
+							"ph-description": "Please Insert Category Description",
+							"submit": "Save"
+						}
+					},
+					"shop": {
+						"index": {
+							"page-title": "Shop Category",
+							"create-category": "create shop category",
+							"list-title": "shop category list",
+							"search": "search",
+							"image": "image",
+							"name": "name",
+							"parent": "parent",
+							"description": "description",
+							"language": "language",
+							"setting": "setting"
+						},
+						"create": {
+							"page-title": "Add new Shop Category",
+							"name": "category name",
+							"ph-name": "Please Insert Name of Category",
+							"parent": "Category Parent",
+							"value-parent": "Main Category",
+							"language": "Language",
+							"picture-gallery": "Picture Gallery",
+							"open-gallery": "Open Picture Gallery",
+							"description": "Description",
+							"ph-description": "Please Insert Category Description",
+							"submit": "Save"
+						}
 					}
 				},
 				"files": {
@@ -168,6 +250,24 @@
 						"table-title": "Title",
 						"table-upload-date": "Upload Date",
 						"title": "file manager"
+					},
+					"upload": {
+						"title": "Upload new File",
+						"file-choose": "choose a file :",
+						"file-upload": "Upload"
+					},
+					"edit": {
+						"title": "Edit File information",
+						"file-title": "File title :",
+						"file-title-ph": "please insert file title",
+						"file-extention": "File Extention :",
+						"file-short-description": "Short Description :",
+						"file-short-description-ph": "Please Insert Short Description about File",
+						"file-alt": "Replace Your alt :",
+						"file-alt-ph": "Please Insert alt file",
+						"file-description": "Description :",
+						"file-description-ph": "Please Insert File Description",
+						"file-update": "Save and Update"
 					}
 				},
 				"roles": {
@@ -203,7 +303,8 @@
 						"table-email": "Email",
 						"table-register-date": "Register Date",
 						"table-setting": "Setting",
-						"title": "Admins"
+						"title": "Admins",
+						"edit": "edit"
 					},
 					"changerole": {
 						"change-role-Save": "Save",
@@ -223,7 +324,45 @@
 						"table-email": "Email",
 						"table-register-date": "Register Date",
 						"table-setting": "Setting",
-						"title": "Users"
+						"title": "Users",
+						"edit": "edit"
+					},
+					"bans": {
+						"create-user": "Create User",
+						"page-title": "Bans",
+						"list-title": "Ban List",
+						"search": "search",
+						"email": "email",
+						"username": "username",
+						"register-date": "register date",
+						"setting": "setting",
+						"admin-toggle": {
+							"admin": "admin"
+						},
+						"edit": "edit",
+						"ban-toggle": {
+							"unban": "unban"
+						},
+						"ban-toggle-unban": "unban"
+					},
+					"reports": {
+						"page-title": "Reports",
+						"list-title": "Reports List",
+						"search": "search",
+						"reporter": "Reporter",
+						"body": "body",
+						"reported-user": "reported User",
+						"setting": "setting"
+					},
+					"guests": {
+						"page-title": "Guests",
+						"create-user": "Create User",
+						"list-title": "guest List",
+						"search": "search",
+						"email": "email",
+						"username": "username",
+						"register-date": "Register Date",
+						"setting": "setting"
 					}
 				},
 				"permissions": {
@@ -237,6 +376,61 @@
 						"table-default-permission": "Default Permission"
 					}
 				}
+			},
+			"admin": {
+				"users": {
+					"bans": {
+						"page-title": "resource.views.admin.users.bans.page-title",
+						"list-title": "resource.views.admin.users.bans.list-title"
+					},
+					"index": {
+						"create-user": "resource.views.admin.users.index.create-user",
+						"search": "resource.views.admin.users.index.search",
+						"email": "resource.views.admin.users.index.email",
+						"username": "resource.views.admin.users.index.username",
+						"register-date": "resource.views.admin.users.index.register-date",
+						"setting": "resource.views.admin.users.index.setting"
+					},
+					"admins": {
+						"page-title": "resource.views.admin.users.admins.page-title",
+						"list-title": "resource.views.admin.users.admins.list-title"
+					}
+				},
+				"categories": {
+					"game": {
+						"index": {
+							"page-title": "resource.views.admin.categories.game.index.page-title",
+							"create-category": "resource.views.admin.categories.game.index.create-category",
+							"list-title": "resource.views.admin.categories.game.index.list-title",
+							"search": "resource.views.admin.categories.game.index.search",
+							"category-image": "resource.views.admin.categories.game.index.category-image",
+							"category-name": "resource.views.admin.categories.game.index.category-name",
+							"category-parent": "resource.views.admin.categories.game.index.category-parent",
+							"category-description": "resource.views.admin.categories.game.index.category-description",
+							"category-language": "resource.views.admin.categories.game.index.category-language",
+							"category-setting": "resource.views.admin.categories.game.index.category-setting"
+						},
+						"create": {
+							"page-title": "resource.views.admin.categories.game.create.page-title",
+							"labels": {
+								"name": "resource.views.admin.categories.game.create.labels.name",
+								"category-parent": "resource.views.admin.categories.game.create.labels.category-parent",
+								"language": "resource.views.admin.categories.game.create.labels.language",
+								"picture-gallery": "resource.views.admin.categories.game.create.labels.picture-gallery",
+								"description": "resource.views.admin.categories.game.create.labels.description"
+							},
+							"place-holders": {
+								"name": "resource.views.admin.categories.game.create.place-holders.name",
+								"place-holders": {
+									"description": "resource.views.admin.categories.game.create.place-holders.place-holders.description"
+								}
+							},
+							"main-category": "resource.views.admin.categories.game.create.main-category",
+							"open-gallery": "resource.views.admin.categories.game.create.open-gallery",
+							"submit": "resource.views.admin.categories.game.create.submit"
+						}
+					}
+				}
 			}
 		}
 	},
@@ -247,6 +441,29 @@
 					"role": {
 						"owner": "owner",
 						"writer": "writer"
+					}
+				}
+			},
+			"http": {
+				"controllers": {
+					"web": {
+						"admin": {
+							"category": {
+								"game-category-controller": {
+									"index": {
+										"title": "typeScript.app.http.controllers.web.admin.category.game-category-controller.index.title"
+									},
+									"create": {
+										"title": "typeScript.app.http.controllers.web.admin.category.game-category-controller.create.title"
+									}
+								},
+								"shop-category-controller": {
+									"index": {
+										"title": "typeScript.app.http.controllers.web.admin.category.shop-category-controller.index.title"
+									}
+								}
+							}
+						}
 					}
 				}
 			}
