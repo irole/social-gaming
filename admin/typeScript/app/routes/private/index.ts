@@ -7,7 +7,7 @@ import {rolesRouter} from './roles';
 import {fileRouter} from './files';
 import {userRouter} from './users';
 import {articleRouter} from './articles';
-import {categoriesRouter} from "./categories";
+import {categoriesRouter} from "./categories/index";
 
 const router = express.Router();
 
