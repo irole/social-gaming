@@ -1,2 +1,2 @@
-# iRole-Express-Api
-This is a Template for Api Project
+# Social Gaming Platform Api
+

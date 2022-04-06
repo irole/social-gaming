@@ -1,1 +1,1 @@
-# WSG
+# Social Gaming Platform
